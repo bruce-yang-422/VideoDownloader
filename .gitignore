@@ -70,3 +70,5 @@ __pycache__/
 Thumbs.db
 Desktop.ini
 .DS_Store
+release-backup/
+release-backup/*.exe
