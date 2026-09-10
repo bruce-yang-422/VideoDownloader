@@ -77,7 +77,8 @@
     .platforms-label { margin: 0 0 10px; color: #8b95aa; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-align: center; }
     .platforms { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; color: #66728e; font-size: 13px; font-weight: 700; }
     .platform { display: inline-flex; align-items: center; gap: 7px; }
-    .platform-icon { display: block; width: 25px; height: 25px; object-fit: contain; border-radius: 7px; }
+    .platform-icon { display: grid; width: 30px; height: 30px; place-items: center; padding: 4px; border: 1px solid #e2e5ee; border-radius: 9px; background: #fff; box-shadow: 0 2px 7px #26386e0d; }
+    .platform-logo { display: block; width: 100%; height: 100%; object-fit: contain; }
     .window { overflow: hidden; border: 1px solid #dce4f5; border-radius: 17px; background: #f8faff; }
     .window-head { display: flex; gap: 6px; align-items: center; height: 45px; padding: 0 16px; border-bottom: 1px solid var(--line); background: white; }
     .dot { width: 9px; height: 9px; border-radius: 50%; background: #ffbd59; }.dot:nth-child(2){background:#6ed99f}.dot:nth-child(3){background:#8fa1c3}
@@ -172,11 +173,11 @@
     <div class="wrap platforms-wrap" aria-label="支援平台">
       <p class="platforms-label">支援平台</p>
       <div class="platforms">
-      <span class="platform"><img class="platform-icon" src="Assets/platform-youtube.svg" alt="">YouTube</span>
-      <span class="platform"><img class="platform-icon" src="Assets/platform-facebook.svg" alt="">Facebook</span>
-      <span class="platform"><img class="platform-icon" src="Assets/platform-instagram.svg" alt="">Instagram</span>
-      <span class="platform"><img class="platform-icon" src="Assets/platform-threads.svg" alt="">Threads</span>
-      <span class="platform"><img class="platform-icon" src="Assets/platform-x.svg" alt="">X / Twitter</span>
+      <span class="platform"><span class="platform-icon"><img class="platform-logo" src="Assets/platform-youtube.svg" alt=""></span>YouTube</span>
+      <span class="platform"><span class="platform-icon"><img class="platform-logo" src="Assets/platform-facebook.svg" alt=""></span>Facebook</span>
+      <span class="platform"><span class="platform-icon"><img class="platform-logo" src="Assets/platform-instagram.svg" alt=""></span>Instagram</span>
+      <span class="platform"><span class="platform-icon"><img class="platform-logo" src="Assets/platform-threads.svg" alt=""></span>Threads</span>
+      <span class="platform"><span class="platform-icon"><img class="platform-logo" src="Assets/platform-x.svg" alt=""></span>X / Twitter</span>
       </div>
     </div>
 
