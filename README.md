@@ -10,6 +10,8 @@
 
 目前為 Windows 1.0.0 首個正式版本，採亮色雙欄介面，已具備下載佇列、下載紀錄、取消下載、使用者設定保存與下載工具自動準備。主視窗預設高度為 920，內容在較小螢幕或較高縮放比例時可垂直捲動，不會裁切底部操作按鈕。
 
+官方網站（GitHub Pages）：[https://videodownloader.stack-base.com](https://videodownloader.stack-base.com)
+
 文件更新：2026-09-10。最新封裝已包含頁首 Logo、About 關於視窗、完成提示與紀錄操作修正、Threads 分享連結解析、Instagram 輪播選取及 X 純音訊辨識修正，版本維持 `1.0.0`。
 
 一般使用者可安裝 `VideoDownloader-v1.0.0-Setup-x64.exe`，不需另裝 .NET 或 Inno Setup。開發者的建置方式與交付路徑見下方「建置與發布」。
