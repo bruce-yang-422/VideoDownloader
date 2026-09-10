@@ -107,7 +107,8 @@
     .system-card h4 { margin: 0 0 9px; font-size: 14px; }
     .system-card p { font-size: 13px; line-height: 1.65; }
     .release-list { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 14px; line-height: 1.6; }
-    .release-list li::before { content: "✓"; display: inline-block; width: 24px; color: #4d55dc; font-weight: 800; }
+    .release-list li { display: flex; align-items: flex-start; gap: 0; }
+    .release-list li::before { content: "✓"; flex: 0 0 24px; color: #4d55dc; font-weight: 800; }
     .faq { padding: 64px 0 70px; }
     .faq-list { display: grid; gap: 10px; max-width: 780px; margin: 0 auto; }
     .faq-item { border: 1px solid var(--line); border-radius: 13px; background: white; }
