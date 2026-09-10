@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VideoDownloader 是 Windows 桌面影音下載工具，支援常見影音平台、影片畫質與純音訊下載。">
+  <title>VideoDownloader｜Windows 影音下載工具</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17213a;
+      --muted: #64708a;
+      --line: #dde5f2;
+      --surface: #ffffff;
+      --primary: #5b5df1;
+      --primary-dark: #4649d3;
+      --cyan: #0bb8d4;
+      --soft: #f3f6ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: "Segoe UI", "Microsoft JhengHei", system-ui, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(135deg, #fafbff 0%, #eef4ff 48%, #f8f6ff 100%);
+    }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header { padding: 22px 0; }
+    nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-size: 18px; font-weight: 750; }
+    .brand img { width: 38px; height: 38px; border-radius: 11px; }
+    .version { color: var(--muted); font-size: 14px; }
+    .hero { display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 64px; padding: 52px 0 20px; }
+    .eyebrow { display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px; color: #3e42b8; background: #e8e9ff; border-radius: 100px; font-size: 14px; font-weight: 700; }
+    .eyebrow::before { content: "●"; color: #26bb80; font-size: 11px; }
+    h1 { margin: 20px 0; font-size: clamp(42px, 6vw, 68px); line-height: 1.08; letter-spacing: -2.5px; }
+    h1 span { color: var(--primary); }
+    .lead { max-width: 570px; margin: 0; color: var(--muted); font-size: 18px; line-height: 1.8; }
+    .actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 31px; }
+    .button { display: inline-flex; min-height: 52px; padding: 0 22px; align-items: center; justify-content: center; border-radius: 13px; text-decoration: none; font-weight: 750; transition: transform .2s, box-shadow .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .primary { color: white; background: linear-gradient(135deg, var(--primary), #7274ff); box-shadow: 0 13px 30px #5b5df144; }
+    .secondary { color: #3d4660; border: 1px solid var(--line); background: white; }
+    .note { margin-top: 14px; color: #7b859a; font-size: 13px; }
+    .preview { position: relative; padding: 10px; overflow: hidden; border: 1px solid #e3e8f8; border-radius: 26px; background: #ffffffc9; box-shadow: 0 32px 70px #273f7c1c; }
+    .preview img { display: block; width: 100%; height: auto; border-radius: 18px; clip-path: inset(0 round 18px); }
+    .window { overflow: hidden; border: 1px solid #dce4f5; border-radius: 17px; background: #f8faff; }
+    .window-head { display: flex; gap: 6px; align-items: center; height: 45px; padding: 0 16px; border-bottom: 1px solid var(--line); background: white; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #ffbd59; }.dot:nth-child(2){background:#6ed99f}.dot:nth-child(3){background:#8fa1c3}
+    .window-title { margin-left: 7px; color: #596783; font-size: 12px; font-weight: 650; }
+    .content { padding: 23px; }
+    .url { display: flex; height: 43px; align-items: center; padding: 0 13px; border: 1px solid #ccd7ef; border-radius: 9px; color: #9aa5b8; background: white; font-size: 12px; }
+    .url b { margin-left: auto; padding: 7px 11px; border-radius: 7px; color: white; background: var(--primary); font-size: 11px; }
+    .media { display: flex; gap: 14px; margin-top: 18px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    .thumb { width: 92px; height: 62px; border-radius: 8px; background: linear-gradient(135deg, #8267ff, #28c3dd); }
+    .lines { flex: 1; padding-top: 4px; }.line { height: 8px; margin-bottom: 9px; border-radius: 9px; background: #e3e9f6; }.line:first-child { width: 88%; background: #bfcaf1; }.line:nth-child(2) { width: 55%; }.line:nth-child(3) { width: 36%; }
+    .download-card { margin-top: 17px; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #eef0ff, #e7f9fc); }
+    .card-row { display: flex; align-items: center; justify-content: space-between; color: #3d4b67; font-size: 12px; font-weight: 700; }.progress { height: 8px; margin: 12px 0 8px; overflow: hidden; border-radius: 8px; background: #d7dff2; }.progress i { display: block; width: 73%; height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--primary), var(--cyan)); }
+    section { padding: 82px 0; }
+    .features-section { padding-top: 28px; }
+    .section-title { margin: 0 auto 38px; max-width: 690px; text-align: center; }.section-title h2 { margin: 0 0 12px; font-size: 34px; letter-spacing: -1px; }.section-title p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }.feature { padding: 26px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }.icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; background: #eceeff; color: var(--primary); font-size: 20px; }.feature h3 { margin: 18px 0 8px; font-size: 17px; }.feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .download { padding: 70px 0; background: #20275a; color: white; text-align: center; }.download h2 { margin: 0 0 13px; font-size: 35px; }.download p { margin: 0 auto 26px; max-width: 610px; color: #cfd5f4; line-height: 1.75; }.download .primary { background: white; color: #4144cf; box-shadow: none; }.requirements { margin-top: 18px; color: #abb7e7; font-size: 13px; }
+    footer { padding: 28px 0; color: #748099; font-size: 13px; text-align: center; }
+    @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 38px; padding-top: 42px; }.preview { max-width: 500px; }.features { grid-template-columns: 1fr; } h1 { letter-spacing: -1.6px; }.version { display: none; } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <nav>
+      <a class="brand" href="#top"><img src="Assets/VideoDownloader-logo.png" alt="VideoDownloader Logo">VideoDownloader</a>
+      <span class="version">Windows x64 · v1.0.0</span>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow">Version 1.0.0 正式版</div>
+        <h1>下載喜愛的<br><span>影音內容</span>更簡單。</h1>
+        <p class="lead">VideoDownloader 是專為 Windows 打造的桌面影音下載工具。貼上連結、選擇格式與品質，便能將影片或音訊儲存到你的電腦。</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/bruce-yang-422/VideoDownloader/releases/download/v1.0.0/VideoDownloader-v1.0.0-Setup-x64.exe">下載 Windows 安裝程式</a>
+        </div>
+        <div class="note">適用於 Windows 10 / 11 x64</div>
+      </div>
+      <div class="preview">
+        <img src="Assets/VideoDownloader-interface-v1.0.0.png" alt="VideoDownloader 程式介面">
+      </div>
+    </div>
+
+    <section class="wrap features-section">
+      <div class="section-title"><h2>一個流程，完成下載</h2><p>自動取得影音資訊與可用格式，讓你用最少操作完成下載。</p></div>
+      <div class="features">
+        <article class="feature"><div class="icon">↗</div><h3>貼上連結即可開始</h3><p>支援 YouTube、Facebook、Instagram、Threads 與 X / Twitter 等常見平台。</p></article>
+        <article class="feature"><div class="icon">◫</div><h3>選擇畫質與格式</h3><p>依來源提供的格式選擇 MP4、MKV 或 4K、1080p、720p 等畫質。</p></article>
+        <article class="feature"><div class="icon">♫</div><h3>儲存純音訊</h3><p>支援 MP3 與 WAV，並可選擇適合需求的音訊品質。</p></article>
+        <article class="feature"><div class="icon">◌</div><h3>掌握即時進度</h3><p>顯示下載百分比、傳輸速度、剩餘時間與處理狀態。</p></article>
+        <article class="feature"><div class="icon">☷</div><h3>多筆下載佇列</h3><p>一次加入多個任務，依序處理並保留下載歷史紀錄。</p></article>
+        <article class="feature"><div class="icon">✓</div><h3>自動準備核心工具</h3><p>首次啟動時自動準備 yt-dlp 與 FFmpeg，減少額外設定。</p></article>
+      </div>
+    </section>
+
+    <section class="download" id="download">
+      <div class="wrap">
+        <h2>準備好開始了嗎？</h2>
+        <p>下載安裝程式後，依照精靈完成安裝，即可從開始功能表或桌面捷徑開啟 VideoDownloader。</p>
+        <a class="button primary" href="https://github.com/bruce-yang-422/VideoDownloader/releases/download/v1.0.0/VideoDownloader-v1.0.0-Setup-x64.exe">下載 VideoDownloader v1.0.0</a>
+        <div class="requirements">Windows 10 / 11 x64 · 需要網際網路連線</div>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap">© 2026 Bruce Yang · VideoDownloader 使用 yt-dlp 與 FFmpeg。</footer>
+</body>
+</html>
