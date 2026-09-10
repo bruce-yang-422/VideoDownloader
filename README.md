@@ -8,7 +8,7 @@
 
 使用 C#、.NET 10 與 Avalonia 12.1.2 製作的 Windows 桌面影音下載工具，以 yt-dlp 取得來源資訊與下載媒體，並使用 FFmpeg 合併影片或轉換音訊。
 
-目前為 Windows 1.0.0 首個正式版本，採亮色雙欄介面，已具備下載佇列、下載紀錄、取消下載、使用者設定保存與下載工具自動準備。
+目前為 Windows 1.0.0 首個正式版本，採亮色雙欄介面，已具備下載佇列、下載紀錄、取消下載、使用者設定保存與下載工具自動準備。主視窗預設高度為 920，內容在較小螢幕或較高縮放比例時可垂直捲動，不會裁切底部操作按鈕。
 
 文件更新：2026-09-10。最新封裝已包含頁首 Logo、About 關於視窗、完成提示與紀錄操作修正、Threads 分享連結解析、Instagram 輪播選取及 X 純音訊辨識修正，版本維持 `1.0.0`。
 
@@ -82,6 +82,10 @@ ffprobe -version
 
 ## 使用方式
 
+網址尚未辨識時顯示 `?`；辨識出 YouTube、Facebook、Instagram、Threads 或 X／Twitter 後切換平台圖示。
+
+工作列與安裝捷徑使用一致的程式識別碼，桌面及開始功能表捷徑明確指定隨安裝包附帶的 Logo。若舊的工作列釘選仍顯示通用圖示，請安裝新版後取消舊釘選，從開始功能表開啟 VideoDownloader 再重新釘選。
+
 1. 啟動程式，等待工具準備完成；若顯示失敗，查看錯誤並排除問題後按「重試」。
 2. 貼上單一影片網址，等待資訊及品質選單載入。
 3. 選擇影片或音訊格式，再選擇畫質／音訊品質。
@@ -131,7 +135,7 @@ Threads 使用隨程式附帶的 `Tools/yt-dlp-plugins/` 解析器，由 yt-dlp.
 
 ### Windows 安裝包
 
-專案提供已使用 Inno Setup 7 編譯的安裝腳本，會建立 per-user Windows x64 安裝包，預設安裝至 `%LOCALAPPDATA%\Programs\VideoDownloader`，並建立開始功能表捷徑，可選擇建立桌面捷徑。安裝包是 self-contained，不要求目標電腦預先安裝 .NET；第一次啟動仍會自動準備 yt-dlp 與 FFmpeg。安裝精靈目前使用標準英文介面，主程式為繁體中文。
+專案提供已使用 Inno Setup 7 編譯的安裝腳本，會建立 per-user Windows x64 安裝包，預設安裝至 `%LOCALAPPDATA%\Programs\VideoDownloader`。安裝精靈一開始會顯示產品名稱、版本、作者、支援平台及下載核心說明；接著建立開始功能表捷徑，並預設勾選「建立桌面捷徑（建議）」，使用者可自行取消。安裝包是 self-contained，不要求目標電腦預先安裝 .NET；第一次啟動仍會自動準備 yt-dlp 與 FFmpeg。安裝精靈其餘系統頁面使用標準英文介面，主程式為繁體中文。
 
 需要先安裝 [Inno Setup 7](https://jrsoftware.org/isinfo.php)，再在專案根目錄執行：
 
@@ -140,17 +144,26 @@ dotnet restore -r win-x64
 .\installer\build-installer.ps1
 ```
 
-腳本會先執行 `dotnet publish -c Release -r win-x64 --self-contained true --no-restore`（同時略過可能受權限限制的 Avalonia 遙測建置工作），再產生下列安裝包。首次建置或清理 `obj/` 後，請先執行上面的套件還原指令：
+封裝前可先清理中繼目錄：
 
-```text
-artifacts/installer/VideoDownloader-v1.0.0-Setup-x64.exe
+```powershell
+git clean -fdx
 ```
 
-目前已使用 Inno Setup 7 重新編譯 1.0.0 正式版安裝包，SHA256 為 `F106467EEFA2547C406EF83305AD9E540278502A816D416FD409E466DF9DDB0C`。`artifacts/` 已列入 `.gitignore`，因此安裝包不會被提交到原始碼；發布到 GitHub Releases 時，請將這個檔案作為 Release asset 上傳。
+腳本會先執行 `dotnet publish -c Release -r win-x64 --self-contained true --no-restore`（同時略過可能受權限限制的 Avalonia 遙測建置工作），再呼叫 Inno Setup 產生安裝包。封裝輸出先寫到 `artifacts/installer/`，並建議複製到 `release-backup/` 供最終交付與保留紀錄：
+
+```text
+release-backup/VideoDownloader-v1.0.0-Setup-x64.exe
+```
+
+最新封裝流程在 `installer/build-installer.ps1` 已確認可重建，`artifacts/` 與 `artifacts/installer-publish/` 僅為中繼輸出，建議保留 `release-backup/VideoDownloader-v1.0.0-Setup-x64.exe` 作為可交付成果。若要快速驗證：
+`SHA256: BBDD7A2E1B421FA451D21B12CA6E9C87FC06700FBCF8DBD7719BDECC9C952EA1`
+
+`artifacts/`、`release-backup/` 是否提交由你決定，但建議採「release-backup 留存、發佈前上傳 release」流程。
 
 版本號統一設定於 `VideoDownloader.csproj` 的 `<Version>`；封裝腳本會讀取此值，套用到安裝包版本與檔名。`1.0.0` 定位為首個正式版，安裝包與主程式均使用 `Assets/VideoDownloader-logo.ico`。
 
-目前也提供 `artifacts/app-publish/VideoDownloader.exe`。這是 Windows x64 self-contained 發布檔，不需要另外安裝 .NET，但必須保留整個 `app-publish/` 資料夾的 DLL 與其他相依檔案，不能只複製 `.exe`。封裝腳本只更新 `installer-publish/` 與安裝包；修改程式後，若要更新 `app-publish/`，需另外執行下方的發布指令。
+`artifacts/installer-publish/` 為可重建的 self-contained 發布輸出，重建指令請見下方。若要避免遺失 DLL 相依，請以完整資料夾一起交付，或改用 `installer` 安裝包。封裝腳本會更新安裝流程輸出；程式碼修改後需重建發佈輸出。
 
 建議發布到 GitHub Releases 時使用以下檔名與版本標籤：
 
@@ -161,11 +174,11 @@ VideoDownloader v1.0.0
 
 安裝包完成後，使用者只需下載並安裝 Setup；開始功能表會出現 VideoDownloader，第一次啟動會依序準備 yt-dlp 與 FFmpeg。安裝包目前尚未簽署，Windows SmartScreen 可能顯示未識別發行者提示。
 
-建置完成後產生的 `bin/`、`obj/`、`.artifacts/` 及 `artifacts/` 都是可重建的輸出；交付時請保留完整的 `artifacts/app-publish/` 資料夾，或交付單一安裝包 `.exe`。下載中斷可能留下的 `.part`、`.m4s` 與 `.videodownloader-*` 暫存檔可在程式關閉後刪除。
+建置完成後會產生 `bin/`、`obj/`、`.artifacts/`、`artifacts/` 等可重建輸出；交付可直接使用單一安裝包 `.exe`。下載中斷可能留下的 `.part`、`.m4s` 與 `.videodownloader-*` 暫存檔可在程式關閉後刪除。
 
-2026-09-10 已重新封裝並同步完整的 `artifacts/app-publish/`；安裝包與直接執行版的主程式及 Threads 解析器經 SHA256 核對一致。發布目錄保留 `app-publish/` 與 `installer/VideoDownloader-v1.0.0-Setup-x64.exe`。
+2026-09-10 目前專案文件已更新為「封裝結果優先保留在 `release-backup/`」；如需交付，請先重建 `artifacts/installer-publish/` 與安裝包，再以 `release-backup/VideoDownloader-v1.0.0-Setup-x64.exe` 進行 Release 上傳。
 
-封裝後已清理 `bin/`、`obj/`、`Tests/*/bin`、`Tests/*/obj`、`.artifacts/` 及 `artifacts/installer-publish/` 等暫存與封裝紀錄。此次未追蹤的暫時測試檔 `Tests/AboutSmoke/MainLayoutTests.cs` 已刪除。原始碼、正式測試、圖示、離線 yt-dlp 核心及發布檔皆保留，並核對未受清理影響。IDE 可能自動重建少量快取。
+封裝前建議清理 `bin/`、`obj/`、`Tests/*/bin`、`Tests/*/obj`、`artifacts`、`.artifacts/` 等暫存與封裝紀錄。建議每次重包前先刪除並重建，避免保留舊中繼檔。正式程式碼、測試專案、圖示、Threads 解析器與腳本保持不變，IDE 可能會在執行時重建少量快取。
 
 建置與測試會重新產生所需目錄；清理後要重新封裝，先執行 `dotnet restore -r win-x64`。後續介面修改已重新封裝，安裝包校驗值以上方發布資訊為準。更新核心會自動取得校驗資料，不需要手動保存 `Tools/SHA2-256SUMS`。
 
@@ -179,7 +192,7 @@ VideoDownloader v1.0.0
 
 ```powershell
 dotnet build VideoDownloader.csproj
-dotnet publish VideoDownloader.csproj -c Release -r win-x64 --self-contained true -o artifacts/app-publish
+dotnet publish VideoDownloader.csproj -c Release -r win-x64 --self-contained true -o artifacts/installer-publish
 ```
 
 發布時會複製可選的 yt-dlp 執行檔及內附的 Threads 解析器。首次啟動會自動準備缺少的工具；若無法存取工具下載站，請預先放置 yt-dlp、FFmpeg 與 ffprobe，其中 FFmpeg／ffprobe 需自行加入執行目錄的 `Tools`。下載來源影片仍需要網路連線。
@@ -257,27 +270,24 @@ dotnet run --project Tests/WorkflowSmoke -- Tools/yt-dlp.exe C:/ffmpeg/bin
 ## 目前限制
 
 - 目前提供 Windows x64 版本，尚未提供 macOS／Linux 發布包。
-- 尚未提供 Cookie 匯入或瀏覽器登入整合；需要登入、私人或網站限制存取的內容可能無法下載。
-- 多項貼文只選取第一個可用影音，尚未提供逐項勾選、整則貼文批次下載或圖片下載。
-- 下載佇列只在本次執行期間保存，尚未支援重新啟動後恢復、拖曳排序或同時執行多筆。
-- 百分比代表目前串流或 FFmpeg 階段，尚未整合為全工作共用的總進度；缺少時長或進度資料時顯示不確定進度。FFmpeg 階段不提供完整的速度與剩餘時間估算。
-- MP4／MKV 使用合併與重新封裝，未強制將影片轉為 H.264；播放相容性取決於來源編碼與播放器。
-- yt-dlp 可自動更新；主程式及內附 Threads 解析器需安裝新版更新。FFmpeg 目前只在缺少或不可用時自動準備。
-- 安裝包尚未簽章，未提供包含全部第三方工具的離線安裝包。
+- 還沒有加入 Cookie／瀏覽器登入整合；需要登入、私訊、私人或受限權限的內容仍可能無法下載。
+- 多項貼文仍以第一個可用影音為主，未提供逐項勾選、整則貼文批次下載或圖片下載。
+- 下載佇列為本次執行生命週期保存，程式重啟後不保留等待工作；未支援暫停繼續與平行下載。
+- 進度目前為分段階段指標（下載/FFmpeg/轉碼），尚未整合成「整體百分比」或跨任務 ETA 模型。
+- MP4／MKV 採來源封裝優先，未提供完整的「通用相容編碼」預設轉碼策略。
+- 首次啟動依賴網路更新 `yt-dlp` 與 `FFmpeg`；離線環境若未預先放工具檔仍需手動處理。
+- 安裝程式未簽章，目標機可能仍有 SmartScreen 安全提示。
 
 ## 後續改善
 
-About 視窗、工具準備「重試」、FFmpeg 階段百分比、多筆順序下載、完成提示、紀錄開啟／清除及 Windows 安裝包均已完成。以下只列尚未完成的改善方向，並非已排定的版本承諾。
+建議下一版先聚焦以下四大方向（非版本承諾）：
 
-| 項目 | 待補內容 |
+| 類型 | 待補內容 |
 | --- | --- |
-| 錯誤診斷與失敗工作重試 | 區分網路、來源限制與轉檔錯誤，提供可匯出的診斷資訊及失敗工作重新加入佇列操作。 |
-| 佇列保存與排序 | 保存尚未完成的工作，重新啟動後可恢復等待項目，支援調整順序。 |
-| 整體工作進度 | 整合下載、合併與轉檔階段，改善缺少時長時的呈現及剩餘時間估算。 |
-| 發布維護 | 建立自動建置與 Release 附件流程、程式新版通知，評估程式簽章與離線工具包。 |
-| 更廣的回歸驗證 | 增加來源樣本、長影片與失敗情境，以及安裝／升級、檔案開啟及不同 DPI 的介面驗證。 |
-
-可選擴充包括 Cookie／登入整合、多項貼文逐項選取、其他作業系統及影片相容性轉碼。MP3 品質選項維持目前設定，來源位元率推薦不列入本次待辦。
+| 穩定性 | 佇列持久化（重啟可恢復）、失敗重試策略、可中斷/續傳下載。 |
+| 相容性 | 提供轉碼預設包（例如偏向通用播放）、並加入更完整的平台限制與失敗因應處理。 |
+| 訊息體驗 | 擴充錯誤分類（網路/平台/轉碼/檔案系統），加入可複製診斷摘要與重試按鈕。 |
+| 發行與驗證 | 補強自動打包上傳流程、簽章規劃與跨 OS 發行需求釐清，並補齊失敗案例與 DPI 迴歸測試。 |
 
 ## 專案結構
 
@@ -307,6 +317,6 @@ VideoDownloader/
 
 使用者設定與下載紀錄保存在 `%LOCALAPPDATA%/VideoDownloader`；建置產物與執行時資料的路徑也列於檔案樹說明。
 
-目前已成功產生 `artifacts/installer/VideoDownloader-v1.0.0-Setup-x64.exe`。此檔案及發布暫存目錄被 `.gitignore` 排除，應在 GitHub Release 中以附件方式發布，而非提交到原始碼儲存庫。
+目前 README 以「可重建」模式維護，發布包在發佈前由封裝流程輸出後再上傳；本機保留版本建議存放在 `release-backup/`，請以 GitHub Release 的附件版本為最終下載來源，`.gitignore` 已排除 `artifacts` 目錄。
 
 

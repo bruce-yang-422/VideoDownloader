@@ -6,15 +6,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         d:DesignWidth="1000"
-        d:DesignHeight="820"
+        d:DesignHeight="920"
         x:Class="VideoDownloader.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/VideoDownloader-logo.ico"
         Title="VideoDownloader"
         Width="1000"
-        Height="820"
+        Height="920"
         MinWidth="850"
-        MinHeight="720"
+        MinHeight="760"
         WindowStartupLocation="CenterScreen"
         RequestedThemeVariant="Light"
         Background="#F5F6FB">
@@ -225,11 +225,13 @@
             </Grid>
         </Border>
 
-        <ScrollViewer x:Name="MainContentScrollViewer" Grid.Row="2"
-                      Margin="0,12,0,12" ClipToBounds="True"
+        <ScrollViewer Grid.Row="2"
+                      HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="MainContentGrid"
+                  Margin="24,12,24,24">
 
-            <Grid Margin="24,0,24,0"
+            <Grid
                   ColumnDefinitions="2*,*"
                   ColumnSpacing="10">
 
@@ -297,20 +299,79 @@
                                 <Grid ColumnDefinitions="Auto,*"
                                       ColumnSpacing="10">
 
-                                    <Border Grid.Column="0"
-                                            Width="30"
-                                            Height="30"
-                                            Background="#E0E6FF"
-                                            CornerRadius="7">
+                                    <Grid Grid.Column="0" Width="36" Height="36"
+                                          VerticalAlignment="Center">
 
-                                        <TextBlock Text="?"
-                                                   FontSize="15"
-                                                   FontWeight="Bold"
-                                                   Foreground="#5361BE"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
+                                        <Border x:Name="DefaultPlatformIcon"
+                                                Background="#E0E6FF"
+                                                CornerRadius="9">
+                                            <TextBlock Text="?"
+                                                       FontSize="17"
+                                                       FontWeight="Bold"
+                                                       Foreground="#5361BE"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
 
-                                    </Border>
+                                        <Border x:Name="YouTubePlatformIcon" IsVisible="False"
+                                                Background="#FFF0F0" CornerRadius="9">
+                                            <Viewbox Width="28" Height="20"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center">
+                                                <Canvas Width="28" Height="20">
+                                                    <Border Width="28" Height="20"
+                                                            Background="#FF0033" CornerRadius="6"/>
+                                                    <Path Fill="White" Data="M 11,5 L 20,10 L 11,15 Z"/>
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+
+                                        <Border x:Name="FacebookPlatformIcon" IsVisible="False"
+                                                Background="#1877F2" CornerRadius="9">
+                                            <TextBlock Text="f" FontFamily="Arial"
+                                                       FontSize="29" FontWeight="Bold"
+                                                       Foreground="White"
+                                                       Margin="0,3,0,-3"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <Border x:Name="InstagramPlatformIcon" IsVisible="False"
+                                                Background="#E1306C" CornerRadius="9">
+                                            <Canvas Width="32" Height="32"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
+                                                <Border Canvas.Left="6" Canvas.Top="6"
+                                                        Width="20" Height="20"
+                                                        BorderBrush="White" BorderThickness="2"
+                                                        CornerRadius="6"/>
+                                                <Ellipse Canvas.Left="11" Canvas.Top="11"
+                                                         Width="10" Height="10"
+                                                         Stroke="White" StrokeThickness="2"/>
+                                                <Ellipse Canvas.Left="22" Canvas.Top="9"
+                                                         Width="2.5" Height="2.5" Fill="White"/>
+                                            </Canvas>
+                                        </Border>
+
+                                        <Border x:Name="ThreadsPlatformIcon" IsVisible="False"
+                                                Background="#111111" CornerRadius="9">
+                                            <TextBlock Text="@" FontFamily="Arial"
+                                                       FontSize="24" FontWeight="Bold"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <Border x:Name="XPlatformIcon" IsVisible="False"
+                                                Background="#111111" CornerRadius="9">
+                                            <TextBlock Text="X" FontFamily="Arial"
+                                                       FontSize="20" FontWeight="Bold"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+
+                                    </Grid>
 
                                     <StackPanel Grid.Column="1"
                                                 VerticalAlignment="Center"
@@ -398,9 +459,8 @@
 
                     </Border>
 
-
                     <!-- ==================================
-                         Progress
+                         Download history
                          ================================== -->
                     <Border Classes="card" Background="#FFFFFF"
                             BorderBrush="#E2E6F0"
@@ -408,94 +468,37 @@
                             CornerRadius="16"
                             Padding="12">
 
-                        <StackPanel Spacing="8">
-
-                            <Grid ColumnDefinitions="*,Auto">
-
-                                <StackPanel Grid.Column="0"
-                                            Spacing="3">
-
-                                    <TextBlock Text="下載狀態"
-                                               FontSize="13"
-                                               FontWeight="SemiBold"
-                                               Foreground="#33415C"/>
-
-                                    <TextBlock x:Name="DownloadStatusTextBlock" Text="尚未開始" TextWrapping="Wrap" MaxWidth="360" MaxLines="2" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Text, RelativeSource={RelativeSource Self}}"
-                                               FontSize="11"
-                                               Foreground="#62708A"/>
-
-                                </StackPanel>
-
-                                <TextBlock Grid.Column="1"
-                                           x:Name="PercentTextBlock" Text="0%"
-                                           FontSize="18"
-                                           FontWeight="SemiBold"
-                                           Foreground="#5850D6"
-                                           VerticalAlignment="Center"/>
-
-                            </Grid>
-
-                            <ProgressBar x:Name="DownloadProgressBar" Minimum="0"
-                                         Maximum="100"
-                                         Value="0"
-                                         Height="8"
-                                         CornerRadius="4"/>
-
-                            <Grid ColumnDefinitions="*,*,*">
-
-                                <StackPanel Grid.Column="0"
-                                            Spacing="2">
-
-                                    <TextBlock Text="速度"
-                                               FontSize="10"
-                                               Foreground="#64718A"/>
-
-                                    <TextBlock x:Name="SpeedTextBlock" Text="-- MB/s"
-                                               FontSize="12"
-                                               Foreground="#33415C"/>
-
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="1"
-                                            Spacing="2">
-
-                                    <TextBlock Text="已下載"
-                                               FontSize="10"
-                                               Foreground="#64718A"/>
-
-                                    <TextBlock x:Name="DownloadedTextBlock" Text="-- MB"
-                                               FontSize="12"
-                                               Foreground="#33415C"/>
-
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="2"
-                                            Spacing="2">
-
-                                    <TextBlock Text="剩餘時間"
-                                               FontSize="10"
-                                               Foreground="#64718A"/>
-
-                                    <TextBlock x:Name="EtaTextBlock" Text="--:--"
-                                               FontSize="12"
-                                               Foreground="#33415C"/>
-
-                                </StackPanel>
-
-                            </Grid>
-
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="下載紀錄"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="#26324B"/>
+                            <TextBlock x:Name="EmptyHistoryText" Text="目前沒有下載紀錄" FontSize="11" Foreground="#64718A"/>
+                            <TextBlock x:Name="HistoryHintText" Text="點選紀錄即可開啟檔案或資料夾" FontSize="10" Foreground="#64718A" TextWrapping="Wrap"/>
+                            <ListBox x:Name="HistoryListBox" MaxHeight="110" Background="Transparent"
+                                     SelectionChanged="HistorySelectionChanged" DoubleTapped="HistoryDoubleTapped">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="services:DownloadRecord">
+                                        <StackPanel Spacing="3" ToolTip.Tip="{Binding Details}">
+                                            <TextBlock Text="{Binding Title}" FontSize="12" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="{Binding Summary}" FontSize="10" Foreground="#62708A" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </StackPanel>
-
                     </Border>
 
-                </StackPanel>
 
+                </StackPanel>
 
                 <!-- ==================================
                      RIGHT SIDE
                      ================================== -->
-                <StackPanel Grid.Column="1"
-                            Spacing="12">
+                <Grid Grid.Column="1"
+                      RowDefinitions="Auto,Auto,Auto,Auto"
+                      VerticalAlignment="Stretch"
+                      RowSpacing="12">
 
                     <!-- Video information -->
                     <Border Classes="card" Background="#FFFFFF"
@@ -519,21 +522,21 @@
                                     CornerRadius="9">
 
                                 <Grid>
-                                <Image x:Name="ThumbnailImage" Stretch="Uniform"/>
-                                <StackPanel x:Name="ThumbnailPlaceholder" HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Spacing="6">
+                                    <Image x:Name="ThumbnailImage" Stretch="Uniform"/>
+                                    <StackPanel x:Name="ThumbnailPlaceholder" HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Spacing="6">
 
-                                    <TextBlock Text="▶"
-                                               FontSize="28"
-                                               Foreground="#7A82CB"
-                                               HorizontalAlignment="Center"/>
+                                        <TextBlock Text="▶"
+                                                   FontSize="28"
+                                                   Foreground="#7A82CB"
+                                                   HorizontalAlignment="Center"/>
 
-                                    <TextBlock Text="尚未取得影片"
-                                               FontSize="11"
-                                               Foreground="#64718A"/>
+                                        <TextBlock Text="尚未取得影片"
+                                                   FontSize="11"
+                                                   Foreground="#64718A"/>
 
-                                </StackPanel>
+                                    </StackPanel>
                                 </Grid>
 
                             </Border>
@@ -557,80 +560,197 @@
 
                     </Border>
 
+                    <StackPanel Grid.Row="1"
+                                Spacing="12">
+
+                        <!-- ==================================
+                             Main download button
+                             ================================== -->
+                        <Button Classes="primary"
+                                HorizontalAlignment="Stretch"
+                                Height="44"
+                                FontSize="15"
+                                x:Name="DownloadButton"
+                                Click="DownloadButton_Click"
+                                Content="開始下載／加入佇列"/>
+                        <Button x:Name="CancelDownloadButton" Classes="secondary" Content="取消目前下載"
+                                HorizontalAlignment="Stretch" IsVisible="False" Click="CancelDownloadButton_Click"/>
+
+
+                        <Border x:Name="QueuePanel" IsVisible="False" Classes="card" Background="White" BorderBrush="#E2E6F0"
+                                BorderThickness="1" CornerRadius="16" Padding="12">
+                            <StackPanel Spacing="6">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBlock x:Name="QueueCountText" Text="下載佇列" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                    <Button Grid.Column="1" Classes="secondary" Content="移除選取" Height="28" FontSize="11" Padding="8,0" Click="RemoveQueued_Click"/>
+                                </Grid>
+                                <ListBox x:Name="QueueListBox" MaxHeight="100" Background="Transparent">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate x:DataType="services:DownloadJob">
+                                            <StackPanel Spacing="2">
+                                                <TextBlock Text="{Binding Title}" FontSize="12" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{Binding Summary}" FontSize="10" TextWrapping="Wrap" Foreground="#62708A"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
 
                     <!-- ==================================
-                         Main download button
+                         Progress
                          ================================== -->
-                    <Button Classes="primary"
-                            HorizontalAlignment="Stretch"
-                            Height="44"
-                            FontSize="15"
-                            x:Name="DownloadButton"
-                            Click="DownloadButton_Click"
-                            Content="開始下載／加入佇列"/>
-                    <Button x:Name="CancelDownloadButton" Classes="secondary" Content="取消目前下載"
-                            HorizontalAlignment="Stretch" IsVisible="False" Click="CancelDownloadButton_Click"/>
+                    <Border Grid.Row="2"
+                            Classes="card" Background="#FFFFFF"
+                            BorderBrush="#E2E6F0"
+                            BorderThickness="1"
+                            CornerRadius="16"
+                            Padding="12">
 
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="10">
 
-                    <Border x:Name="QueuePanel" IsVisible="False" Classes="card" Background="White" BorderBrush="#E2E6F0"
-                            BorderThickness="1" CornerRadius="16" Padding="12">
-                        <StackPanel Spacing="6">
-                            <Grid ColumnDefinitions="*,Auto">
-                                <TextBlock x:Name="QueueCountText" Text="下載佇列" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                <Button Grid.Column="1" Classes="secondary" Content="移除選取" Height="28" FontSize="11" Padding="8,0" Click="RemoveQueued_Click"/>
+                            <!-- Header -->
+                            <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                <TextBlock Text="下載進度"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="#33415C"
+                                           VerticalAlignment="Center"/>
+
+                                <Border Grid.Column="1"
+                                        Background="#EEF2FF"
+                                        BorderBrush="#D9E1FF"
+                                        BorderThickness="1"
+                                        CornerRadius="10"
+                                        Padding="10,5"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center">
+                                    <TextBlock x:Name="PercentTextBlock"
+                                               Text="0%"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Foreground="#5850D6"/>
+                                </Border>
                             </Grid>
-                            <ListBox x:Name="QueueListBox" MaxHeight="100" Background="Transparent">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate x:DataType="services:DownloadJob">
-                                        <StackPanel Spacing="2">
-                                            <TextBlock Text="{Binding Title}" FontSize="12" TextTrimming="CharacterEllipsis"/>
-                                            <TextBlock Text="{Binding Summary}" FontSize="10" TextWrapping="Wrap" Foreground="#62708A"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
+
+                            <Border Grid.Row="1" Background="#F8FAFF"
+                                    BorderBrush="#DFE5F4"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Padding="10">
+
+                                <TextBlock x:Name="DownloadStatusTextBlock"
+                                           Text="尚未開始"
+                                           TextWrapping="Wrap"
+                                           MaxLines="2"
+                                           TextTrimming="CharacterEllipsis"
+                                           ToolTip.Tip="{Binding Text, RelativeSource={RelativeSource Self}}"
+                                           FontSize="11"
+                                           Foreground="#62708A"/>
+                            </Border>
+
+                            <StackPanel Grid.Row="2" Spacing="6">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" VerticalAlignment="Center">
+                                    <TextBlock Text="下載佔比"
+                                               FontSize="11"
+                                               Foreground="#64718A"/>
+                                    <TextBlock Text="{Binding Text, ElementName=PercentTextBlock}"
+                                               FontSize="11"
+                                               Foreground="#33415C"
+                                               HorizontalAlignment="Right"/>
+                                </Grid>
+                                <ProgressBar x:Name="DownloadProgressBar"
+                                             Minimum="0"
+                                             Maximum="100"
+                                             Value="0"
+                                             Height="10"
+                                             CornerRadius="6"/>
+                            </StackPanel>
+
+                            <Grid Grid.Row="3" ColumnDefinitions="*,*,*"
+                                  RowDefinitions="Auto,Auto"
+                                  ColumnSpacing="8"
+                                  RowSpacing="8">
+
+                                <Border Grid.Row="0" Grid.Column="0"
+                                        Background="#FFFFFF"
+                                        BorderBrush="#E5EAF8"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="10,8">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="速度"
+                                                   FontSize="10"
+                                                   Foreground="#64718A"/>
+                                        <TextBlock x:Name="SpeedTextBlock" Text="-- MB/s"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#33415C"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Row="0" Grid.Column="1"
+                                        Background="#FFFFFF"
+                                        BorderBrush="#E5EAF8"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="10,8">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="已下載"
+                                                   FontSize="10"
+                                                   Foreground="#64718A"/>
+                                        <TextBlock x:Name="DownloadedTextBlock" Text="-- MB"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#33415C"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Row="0" Grid.Column="2"
+                                        Background="#FFFFFF"
+                                        BorderBrush="#E5EAF8"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="10,8">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="剩餘時間"
+                                                   FontSize="10"
+                                                   Foreground="#64718A"/>
+                                        <TextBlock x:Name="EtaTextBlock" Text="--:--"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#33415C"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                        </Grid>
+
                     </Border>
 
-                    <!-- Download history -->
-                    <Border Classes="card" Background="#FFFFFF"
+                    <!-- ==================================
+                         File actions
+                         ================================== -->
+                    <Border Grid.Row="3" Classes="card" Background="#FFFFFF"
                             BorderBrush="#E2E6F0"
                             BorderThickness="1"
                             CornerRadius="16"
                             Padding="12">
 
                         <StackPanel Spacing="6">
-
                             <Grid ColumnDefinitions="*,Auto">
-
-                                <TextBlock Grid.Column="0"
-                                           Text="下載紀錄"
+                                <TextBlock Text="檔案操作"
                                            FontSize="15"
                                            FontWeight="SemiBold"
                                            Foreground="#26324B"/>
-
                                 <Button Grid.Column="1"
                                         Classes="secondary"
                                         Height="30"
                                         Padding="10,0"
                                         FontSize="11"
-                                        Content="開啟資料夾" Click="OpenSaveFolder_Click"/>
-
+                                        Content="開啟下載資料夾" Click="OpenSaveFolder_Click"/>
                             </Grid>
-
-                            <TextBlock x:Name="EmptyHistoryText" Text="目前沒有下載紀錄" FontSize="11" Foreground="#64718A"/>
-                            <TextBlock x:Name="HistoryHintText" Text="點選紀錄即可開啟檔案或資料夾" FontSize="10" Foreground="#64718A" TextWrapping="Wrap"/>
-                            <ListBox x:Name="HistoryListBox" MaxHeight="100" Background="Transparent"
-                                     SelectionChanged="HistorySelectionChanged" DoubleTapped="HistoryDoubleTapped">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate x:DataType="services:DownloadRecord">
-                                        <StackPanel Spacing="3" ToolTip.Tip="{Binding Details}">
-                                            <TextBlock Text="{Binding Title}" FontSize="12" TextTrimming="CharacterEllipsis"/>
-                                            <TextBlock Text="{Binding Summary}" FontSize="10" Foreground="#62708A" TextWrapping="Wrap"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
                                 <Button x:Name="OpenHistoryFileButton" Content="開啟檔案" Classes="secondary" Height="30" FontSize="11"
                                         IsEnabled="False" Click="OpenHistoryFile_Click" HorizontalAlignment="Stretch"/>
@@ -645,15 +765,14 @@
                                         IsEnabled="False" Click="ClearHistory_Click" HorizontalAlignment="Stretch"
                                         ToolTip.Tip="只清除紀錄，保留已下載的檔案"/>
                             </Grid>
-
                         </StackPanel>
-
                     </Border>
 
-                </StackPanel>
+                </Grid>
 
             </Grid>
 
+            </Grid>
         </ScrollViewer>
 
     </Grid>

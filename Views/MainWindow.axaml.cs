@@ -444,8 +444,6 @@ public partial class MainWindow : Window
     {
         _lastCompletedPath = path;
         DownloadCompletionBanner.IsVisible = !string.IsNullOrWhiteSpace(path);
-        if (DownloadCompletionBanner.IsVisible)
-            MainContentScrollViewer.Offset = default;
         DownloadCompletionPathTextBlock.Text = path is null ? string.Empty : Path.GetFileName(path);
         OpenCompletedFileButton.IsEnabled = path is not null && File.Exists(path);
         OpenCompletedFolderButton.IsEnabled = path is not null &&
@@ -581,6 +579,14 @@ public partial class MainWindow : Window
     {
         PlatformTextBlock.Text = platform;
         PlatformDescriptionTextBlock.Text = description;
+
+        YouTubePlatformIcon.IsVisible = platform == "YouTube";
+        FacebookPlatformIcon.IsVisible = platform == "Facebook";
+        InstagramPlatformIcon.IsVisible = platform == "Instagram";
+        ThreadsPlatformIcon.IsVisible = platform == "Threads";
+        XPlatformIcon.IsVisible = platform == "X / Twitter";
+        DefaultPlatformIcon.IsVisible = platform is not (
+            "YouTube" or "Facebook" or "Instagram" or "Threads" or "X / Twitter");
     }
 
     private async void SelectFolderButton_Click(object? sender, RoutedEventArgs e)
