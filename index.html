@@ -54,6 +54,9 @@
     nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-size: 18px; font-weight: 750; }
     .brand img { width: 38px; height: 38px; border-radius: 11px; }
+    .header-actions { display: flex; align-items: center; gap: 18px; }
+    .header-github { color: #4b5370; font-size: 14px; font-weight: 700; text-decoration: none; }
+    .header-github:hover { color: var(--primary); }
     .version { color: var(--muted); font-size: 14px; }
     .hero { display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 64px; padding: 52px 0 20px; }
     .eyebrow { display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px; color: #3e42b8; background: #e8e9ff; border-radius: 100px; font-size: 14px; font-weight: 700; }
@@ -64,11 +67,17 @@
     .actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 31px; }
     .button { display: inline-flex; min-height: 52px; padding: 0 22px; align-items: center; justify-content: center; border-radius: 13px; text-decoration: none; font-weight: 750; transition: transform .2s, box-shadow .2s; }
     .button:hover { transform: translateY(-2px); }
+    .button:focus-visible, .header-github:focus-visible, .footer-links a:focus-visible, .github-link:focus-visible { outline: 3px solid #8b8dff; outline-offset: 3px; }
     .primary { color: white; background: linear-gradient(135deg, var(--primary), #7274ff); box-shadow: 0 13px 30px #5b5df144; }
     .secondary { color: #3d4660; border: 1px solid var(--line); background: white; }
     .note { margin-top: 14px; color: #7b859a; font-size: 13px; }
     .preview { position: relative; padding: 10px; overflow: hidden; border: 1px solid #e3e8f8; border-radius: 26px; background: #ffffffc9; box-shadow: 0 32px 70px #273f7c1c; }
     .preview img { display: block; width: 100%; height: auto; border-radius: 18px; clip-path: inset(0 round 18px); }
+    .platforms-wrap { padding: 20px 0 4px; }
+    .platforms-label { margin: 0 0 10px; color: #8b95aa; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-align: center; }
+    .platforms { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; color: #66728e; font-size: 13px; font-weight: 700; }
+    .platform { display: inline-flex; align-items: center; gap: 7px; }
+    .platform-icon { display: block; width: 25px; height: 25px; object-fit: contain; border-radius: 7px; }
     .window { overflow: hidden; border: 1px solid #dce4f5; border-radius: 17px; background: #f8faff; }
     .window-head { display: flex; gap: 6px; align-items: center; height: 45px; padding: 0 16px; border-bottom: 1px solid var(--line); background: white; }
     .dot { width: 9px; height: 9px; border-radius: 50%; background: #ffbd59; }.dot:nth-child(2){background:#6ed99f}.dot:nth-child(3){background:#8fa1c3}
@@ -85,16 +94,63 @@
     .features-section { padding-top: 28px; }
     .section-title { margin: 0 auto 38px; max-width: 690px; text-align: center; }.section-title h2 { margin: 0 0 12px; font-size: 34px; letter-spacing: -1px; }.section-title p { margin: 0; color: var(--muted); line-height: 1.7; }
     .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }.feature { padding: 26px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }.icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; background: #eceeff; color: var(--primary); font-size: 20px; }.feature h3 { margin: 18px 0 8px; font-size: 17px; }.feature p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
-    .download { padding: 70px 0; background: #20275a; color: white; text-align: center; }.download h2 { margin: 0 0 13px; font-size: 35px; }.download p { margin: 0 auto 26px; max-width: 610px; color: #cfd5f4; line-height: 1.75; }.download .primary { background: white; color: #4144cf; box-shadow: none; }.requirements { margin-top: 18px; color: #abb7e7; font-size: 13px; }
-    footer { padding: 28px 0; color: #748099; font-size: 13px; text-align: center; }
-    @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 38px; padding-top: 42px; }.preview { max-width: 500px; }.features { grid-template-columns: 1fr; } h1 { letter-spacing: -1.6px; }.version { display: none; } }
+    .download { padding: 70px 0; background: #20275a; color: white; text-align: center; }.download h2 { margin: 0 0 13px; font-size: 35px; }.download p { margin: 0 auto 26px; max-width: 610px; color: #cfd5f4; line-height: 1.75; }.download .primary { background: white; color: #4144cf; box-shadow: none; }.requirements { margin-top: 18px; color: #abb7e7; font-size: 13px; }.trust-line { margin-top: 22px; color: #b8c1e8; font-size: 12px; }.github-link { display: inline-block; margin-top: 8px; color: #c4cbed; font-size: 12px; font-weight: 600; text-underline-offset: 3px; }
+    .release { padding: 48px 0 52px; background: #f6f8ff; border-top: 1px solid #e2e8f5; border-bottom: 1px solid #e2e8f5; }
+    .release-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 22px; align-items: stretch; }
+    .release-card { padding: 24px 26px; border: 1px solid var(--line); border-radius: 18px; background: white; box-shadow: 0 12px 30px #2e43800b; }
+    .release-card h3 { margin: 0 0 14px; font-size: 18px; }
+    .release-card p { margin: 0; color: var(--muted); line-height: 1.75; font-size: 14px; }
+    .release-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .release-meta span { padding: 6px 10px; border-radius: 8px; color: #4a50c9; background: #eceeff; font-size: 12px; font-weight: 700; }
+    .system-card { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .system-card h4 { margin: 0 0 9px; font-size: 14px; }
+    .system-card p { font-size: 13px; line-height: 1.65; }
+    .release-list { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .release-list li::before { content: "✓"; display: inline-block; width: 24px; color: #4d55dc; font-weight: 800; }
+    .faq { padding: 64px 0 70px; }
+    .faq-list { display: grid; gap: 10px; max-width: 780px; margin: 0 auto; }
+    .faq-item { border: 1px solid var(--line); border-radius: 13px; background: white; }
+    .faq-item summary { padding: 17px 20px; cursor: pointer; color: var(--ink); font-size: 15px; font-weight: 750; list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; float: right; color: var(--primary); font-size: 20px; line-height: 16px; }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-item p { margin: 0; padding: 0 20px 18px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    footer { padding: 34px 0 30px; color: #748099; font-size: 13px; text-align: center; }
+    .footer-brand { margin-bottom: 12px; color: var(--ink); font-size: 16px; font-weight: 800; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; margin-bottom: 18px; }
+    .footer-links a { color: #596680; text-decoration: none; }
+    .footer-links a:hover { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
+    .footer-meta { display: grid; gap: 5px; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 28px, 560px); }
+      header { padding: 16px 0; }
+      .brand { font-size: 16px; }.brand img { width: 34px; height: 34px; }
+      .header-actions { gap: 11px; }.header-github { font-size: 13px; }
+      .hero { grid-template-columns: 1fr; gap: 30px; padding: 34px 0 8px; }
+      h1 { margin: 16px 0; font-size: clamp(38px, 11vw, 54px); letter-spacing: -1.6px; }
+      .lead { font-size: 16px; line-height: 1.7; }.actions { margin-top: 24px; }.actions .button { width: 100%; }
+      .preview { max-width: 560px; padding: 7px; border-radius: 20px; }.preview img { border-radius: 14px; }
+      .platforms-wrap { padding-top: 18px; }.platforms { gap: 10px 16px; font-size: 12px; }
+      section { padding: 60px 0; }.features-section { padding-top: 24px; }
+      .section-title { margin-bottom: 28px; }.section-title h2 { font-size: 29px; }.section-title p { font-size: 14px; }
+      .features { grid-template-columns: 1fr; gap: 12px; }.feature { padding: 21px; }.feature h3 { margin-top: 14px; }
+      .download { padding: 56px 0; }.download h2 { font-size: 30px; }.download p { font-size: 14px; }.download .button { width: 100%; }
+      .release { padding: 38px 0 44px; }.release-grid { grid-template-columns: 1fr; gap: 13px; }.release-card { padding: 21px; }
+      .faq { padding: 48px 0 54px; }.faq-item summary { padding: 15px 16px; font-size: 14px; }.faq-item p { padding: 0 16px 16px; font-size: 13px; }
+      footer { padding: 27px 0; }.footer-links { gap: 8px 14px; }
+      .version { display: none; }
+    }
+    @media (max-width: 420px) { .eyebrow { font-size: 12px; }.platforms { justify-content: flex-start; }.platform { min-width: calc(50% - 8px); }.note { font-size: 12px; }.release-list { font-size: 13px; } }
   </style>
 </head>
 <body>
   <header class="wrap">
     <nav>
       <a class="brand" href="#top"><img src="Assets/VideoDownloader-logo.png" alt="VideoDownloader Logo">VideoDownloader</a>
-      <span class="version">Windows x64 · v1.0.0</span>
+      <div class="header-actions">
+        <a class="header-github" href="https://github.com/bruce-yang-422/VideoDownloader" target="_blank" rel="noopener">GitHub</a>
+        <span class="version">Windows x64 · v1.0.0</span>
+      </div>
     </nav>
   </header>
 
@@ -107,10 +163,20 @@
         <div class="actions">
           <a class="button primary" href="https://github.com/bruce-yang-422/VideoDownloader/releases/download/v1.0.0/VideoDownloader-v1.0.0-Setup-x64.exe">下載 Windows 安裝程式</a>
         </div>
-        <div class="note">適用於 Windows 10 / 11 x64</div>
+        <div class="note">免費使用 · Windows 10 / 11 · x64</div>
       </div>
       <div class="preview">
         <img src="Assets/VideoDownloader-interface-v1.0.0.png" alt="VideoDownloader 程式介面">
+      </div>
+    </div>
+    <div class="wrap platforms-wrap" aria-label="支援平台">
+      <p class="platforms-label">支援平台</p>
+      <div class="platforms">
+      <span class="platform"><img class="platform-icon" src="Assets/platform-youtube.svg" alt="">YouTube</span>
+      <span class="platform"><img class="platform-icon" src="Assets/platform-facebook.svg" alt="">Facebook</span>
+      <span class="platform"><img class="platform-icon" src="Assets/platform-instagram.svg" alt="">Instagram</span>
+      <span class="platform"><img class="platform-icon" src="Assets/platform-threads.svg" alt="">Threads</span>
+      <span class="platform"><img class="platform-icon" src="Assets/platform-x.svg" alt="">X / Twitter</span>
       </div>
     </div>
 
@@ -132,9 +198,59 @@
         <p>下載安裝程式後，依照精靈完成安裝，即可從開始功能表或桌面捷徑開啟 VideoDownloader。</p>
         <a class="button primary" href="https://github.com/bruce-yang-422/VideoDownloader/releases/download/v1.0.0/VideoDownloader-v1.0.0-Setup-x64.exe">下載 VideoDownloader v1.0.0</a>
         <div class="requirements">Windows 10 / 11 x64 · 需要網際網路連線</div>
+        <div class="trust-line">免費使用 · 開放原始碼 · 無廣告</div>
+        <a class="github-link" href="https://github.com/bruce-yang-422/VideoDownloader" target="_blank" rel="noopener">查看 GitHub 原始碼 ↗</a>
+      </div>
+    </section>
+
+    <section class="release" aria-labelledby="release-title">
+      <div class="wrap release-grid">
+        <div class="release-card">
+          <h3 id="release-title">最新版本</h3>
+          <p><strong>版本：1.0.0</strong><br>VideoDownloader 正式版，適用於 Windows 10 / 11 x64。</p>
+          <div class="release-meta"><span>Stable</span><span>2026-09-10 更新</span></div>
+          <div class="system-card"><h4>系統需求</h4><p>Windows 10 / 11 · x64 · 需要網路連線<br>約 230 MB 可用空間</p></div>
+        </div>
+        <div class="release-card">
+          <h3>版本更新內容</h3>
+          <ul class="release-list">
+            <li>支援 YouTube、Facebook、Instagram、Threads 與 X / Twitter。</li>
+            <li>依來源提供 4K、1080p、720p 等影片畫質與 MP4 / MKV 格式。</li>
+            <li>支援 MP3 / WAV 純音訊下載與音訊品質選擇。</li>
+            <li>提供多筆下載佇列、即時進度與下載完成狀態。</li>
+            <li>保留下載歷史，並可快速開啟檔案與下載資料夾。</li>
+            <li>首次啟動自動準備 yt-dlp 與 FFmpeg 核心工具。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-title"><h2 id="faq-title">常見問題</h2><p>下載前想了解更多？先看看幾個常見問題。</p></div>
+        <div class="faq-list">
+          <details class="faq-item"><summary>為什麼有些影片無法取得或下載？</summary><p>影片可能受到平台地區限制、年齡限制、來源下架或平台規則影響。請確認網址可在瀏覽器正常開啟，並稍後再試。</p></details>
+          <details class="faq-item"><summary>私人或需要登入的影片可以下載嗎？</summary><p>目前主要支援公開可存取的內容。私人影片或需要登入、Cookie 驗證的內容可能無法取得。</p></details>
+          <details class="faq-item"><summary>第一次啟動為什麼需要等待？</summary><p>程式第一次啟動會自動準備 yt-dlp 與 FFmpeg，並檢查下載核心版本，因此需要一些時間與網路連線。</p></details>
+          <details class="faq-item"><summary>下載核心準備失敗怎麼辦？</summary><p>請確認網路連線正常後按「重試」。若仍然失敗，請到 GitHub Issues 回報錯誤訊息與系統版本。</p></details>
+          <details class="faq-item"><summary>為什麼下載到 100% 還沒有完成？</summary><p>100% 代表串流下載完成，程式可能還在進行影片合併、轉檔或音訊處理，完成後才會顯示最終狀態。</p></details>
+          <details class="faq-item"><summary>為什麼 Windows 顯示未知發行者？</summary><p>目前安裝程式尚未加入 Windows 程式碼簽章，因此 SmartScreen 可能顯示未知發行者。請確認安裝檔來自本網站或官方 GitHub Releases。</p></details>
+          <details class="faq-item"><summary>MP3 的 128 / 192 / 256 / 320 kbps 要怎麼選？</summary><p>MP3 位元率越高檔案越大，但不會超過來源本身的音質。一般使用可選 192 或 256 kbps；想保留最佳可用品質時選擇「最佳音質」即可。</p></details>
+          <details class="faq-item"><summary>為什麼畫質選單沒有 4K 或其他選項？</summary><p>畫質選項會依影片來源實際提供的格式產生。來源只有 720p 時不會顯示 1080p 或 4K，避免選到不存在的串流。</p></details>
+          <details class="faq-item"><summary>影片格式與畫質可以分開選嗎？</summary><p>可以。影片可選 MP4 或 MKV，再依來源選擇可用畫質；純音訊則可選 MP3 或 WAV 與對應的音訊品質。</p></details>
+        </div>
       </div>
     </section>
   </main>
-  <footer class="wrap">© 2026 Bruce Yang · VideoDownloader 使用 yt-dlp 與 FFmpeg。</footer>
+  <footer class="wrap">
+    <div class="footer-brand">VideoDownloader</div>
+    <nav class="footer-links" aria-label="專案連結">
+      <a href="https://github.com/bruce-yang-422/VideoDownloader" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/bruce-yang-422/VideoDownloader/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="https://github.com/bruce-yang-422/VideoDownloader/issues" target="_blank" rel="noopener">Issues</a>
+      <a href="https://github.com/bruce-yang-422/VideoDownloader#readme" target="_blank" rel="noopener">使用說明</a>
+    </nav>
+    <div class="footer-meta"><span>© 2026 Bruce Yang</span><span>Powered by yt-dlp &amp; FFmpeg</span></div>
+  </footer>
 </body>
 </html>
