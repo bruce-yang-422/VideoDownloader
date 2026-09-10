@@ -85,3 +85,4 @@ PumpUntil(() => Control<Button>("CheckUpdatesButton").IsEnabled);
 Check(calls == 1 && Control<TextBlock>("StatusText").Text == "測試工具檢查完成", "update action invokes the supplied workflow and refreshes versions");
 window.Close();
 Console.WriteLine("PASS: About dialog closed");
+MainLayoutTests.Run();

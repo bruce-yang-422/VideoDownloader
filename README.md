@@ -32,7 +32,7 @@
 - 保存最近 100 筆下載紀錄：標題、平台、格式／品質、結束時間、輸出路徑與成功／失敗／取消狀態。
 - 啟動時自動選取最近紀錄，下載結束後自動選取最新紀錄；可開啟檔案或所在資料夾，雙擊成功紀錄可開啟檔案。
 - 可移除選取紀錄或清除全部紀錄，會保存變更且不刪除下載檔案。
-- 下載完成提示固定顯示於頁首下方，不隨內容捲動，並可直接開啟輸出檔案或檔案所在資料夾。
+- 下載完成提示固定顯示於頁首下方，與內容區保留間距；完成時內容回到頂端，捲動內容不會蓋住提示。可直接開啟輸出檔案或檔案所在資料夾。
 - 下載中可按「取消目前下載」，停止下載／轉檔並清理本次工作的暫存目錄。
 - 記住儲存資料夾、格式及 MP3／WAV 品質。影片畫質仍依新來源預設最高。
 - 同名下載自動加上編號，不覆寫既有影片或音訊。
@@ -146,7 +146,7 @@ dotnet restore -r win-x64
 artifacts/installer/VideoDownloader-v1.0.0-Setup-x64.exe
 ```
 
-目前已使用 Inno Setup 7 重新編譯 1.0.0 正式版安裝包，SHA256 為 `928C4F0E0BD6F1354C5DAF88A0F43CD64510A99985A86E60FB088B5BD00E7E3B`。`artifacts/` 已列入 `.gitignore`，因此安裝包不會被提交到原始碼；發布到 GitHub Releases 時，請將這個檔案作為 Release asset 上傳。
+目前已使用 Inno Setup 7 重新編譯 1.0.0 正式版安裝包，SHA256 為 `F106467EEFA2547C406EF83305AD9E540278502A816D416FD409E466DF9DDB0C`。`artifacts/` 已列入 `.gitignore`，因此安裝包不會被提交到原始碼；發布到 GitHub Releases 時，請將這個檔案作為 Release asset 上傳。
 
 版本號統一設定於 `VideoDownloader.csproj` 的 `<Version>`；封裝腳本會讀取此值，套用到安裝包版本與檔名。`1.0.0` 定位為首個正式版，安裝包與主程式均使用 `Assets/VideoDownloader-logo.ico`。
 
@@ -165,7 +165,7 @@ VideoDownloader v1.0.0
 
 2026-09-10 已重新封裝並同步完整的 `artifacts/app-publish/`；安裝包與直接執行版的主程式及 Threads 解析器經 SHA256 核對一致。發布目錄保留 `app-publish/` 與 `installer/VideoDownloader-v1.0.0-Setup-x64.exe`。
 
-封裝後已清理 `bin/obj`、測試建置目錄、`.artifacts/` 及 `artifacts/installer-publish/` 等暫存與封裝紀錄。原始碼、正式測試、圖示、離線 yt-dlp 核心及發布檔皆保留，並核對未受清理影響。IDE 可能自動重建少量快取。
+封裝後已清理 `bin/`、`obj/`、`Tests/*/bin`、`Tests/*/obj`、`.artifacts/` 及 `artifacts/installer-publish/` 等暫存與封裝紀錄。此次未追蹤的暫時測試檔 `Tests/AboutSmoke/MainLayoutTests.cs` 已刪除。原始碼、正式測試、圖示、離線 yt-dlp 核心及發布檔皆保留，並核對未受清理影響。IDE 可能自動重建少量快取。
 
 建置與測試會重新產生所需目錄；清理後要重新封裝，先執行 `dotnet restore -r win-x64`。後續介面修改已重新封裝，安裝包校驗值以上方發布資訊為準。更新核心會自動取得校驗資料，不需要手動保存 `Tools/SHA2-256SUMS`。
 
@@ -204,13 +204,13 @@ dotnet build VideoDownloader.csproj -p:UsedAvaloniaProducts=
 
 ## 測試
 
-About 視窗與版本資訊測試（使用 Avalonia Headless，不啟動主視窗的網路更新）：
+About 與主視窗版面測試（使用 Avalonia Headless，不啟動主視窗的網路更新）：
 
 ```powershell
 dotnet run --project Tests/AboutSmoke -p:UsedAvaloniaProducts= -- Tools/yt-dlp.exe
 ```
 
-驗證組件版本與作者、工具缺少與取消狀態、真實工具版本、預設／最小視窗尺寸下的按鈕可見性、剪貼簿內容，以及更新按鈕呼叫檢查流程後重新讀取版本。更新流程在此測試使用模擬回傳；工具更新本身由 UpdaterSmoke／WorkflowSmoke 驗證。最後的 yt-dlp 路徑可省略，省略時跳過指定工具的版本實測。
+驗證組件版本與作者、工具缺少與取消狀態、真實工具版本、預設／最小視窗尺寸下的按鈕可見性、剪貼簿內容，以及更新按鈕呼叫檢查流程後重新讀取版本。更新流程在此測試使用模擬回傳；工具更新本身由 UpdaterSmoke／WorkflowSmoke 驗證。最後的 yt-dlp 路徑可省略，省略時跳過指定工具的版本實測。另驗證長檔名、已有捲動位置時顯示完成提示，以及 1000 × 720／850 × 650 視窗下的固定間距、回到頂端與內容裁切。
 
 Threads 解析器測試（開發環境需 Python 與 `yt-dlp` 套件；安裝包使用者不需要）：
 
@@ -308,3 +308,5 @@ VideoDownloader/
 使用者設定與下載紀錄保存在 `%LOCALAPPDATA%/VideoDownloader`；建置產物與執行時資料的路徑也列於檔案樹說明。
 
 目前已成功產生 `artifacts/installer/VideoDownloader-v1.0.0-Setup-x64.exe`。此檔案及發布暫存目錄被 `.gitignore` 排除，應在 GitHub Release 中以附件方式發布，而非提交到原始碼儲存庫。
+
+

@@ -42,7 +42,8 @@ VideoDownloader/
 ├── Tests/
 │   ├── AboutSmoke/
 │   │   ├── AboutSmoke.csproj       Avalonia Headless 關於視窗測試專案
-│   │   └── Program.cs              版本、作者、版面、剪貼簿與工具檢查回呼驗證
+│   │   ├── Program.cs              版本、作者、版面、剪貼簿與工具檢查回呼驗證
+
 │   ├── UpdaterSmoke/
 │   │   ├── UpdaterSmoke.csproj     更新流程測試專案
 │   │   └── Program.cs              安裝、版本比較、離線與備份測試
@@ -81,7 +82,7 @@ IDE、建置或測試執行時可能重新建立這些目錄。
 
 bin/                               一般建置輸出
 obj/                               建置中間檔
-.artifacts/                        臨時驗證程式、測試下載與紀錄（本次已移除）
+.artifacts/                        臨時驗證程式、測試下載與紀錄（本次已清空）
 artifacts/installer-publish/        封裝時產生的重複發布目錄
 artifacts/*.log                    封裝紀錄
 Tests/*/bin/、Tests/*/obj/          測試建置產物
@@ -124,3 +125,6 @@ __pycache__/、*.py[cod]            Python 快取，可出現在解析器或測�
 11. About 作者為 Bruce Yang；版本、作者、Copyright、狀態與發布日期集中於 csproj，技術版本動態查詢。
 12. About「檢查更新」沿用下載工具準備流程，不更新主程式；目前不提供 GitHub 專案連結按鈕。
 13. 2026-09-10 重新封裝後已清理建置目錄、測試快取與封裝紀錄；保留檔案經 SHA256 核對未受影響，再更新本檔與 README.md。安裝包校驗值見 README.md。
+
+
+

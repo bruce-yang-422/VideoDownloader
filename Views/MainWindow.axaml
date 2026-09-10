@@ -6,15 +6,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         d:DesignWidth="1000"
-        d:DesignHeight="720"
+        d:DesignHeight="820"
         x:Class="VideoDownloader.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/VideoDownloader-logo.ico"
         Title="VideoDownloader"
         Width="1000"
-        Height="720"
+        Height="820"
         MinWidth="850"
-        MinHeight="650"
+        MinHeight="720"
         WindowStartupLocation="CenterScreen"
         RequestedThemeVariant="Light"
         Background="#F5F6FB">
@@ -225,10 +225,11 @@
             </Grid>
         </Border>
 
-        <ScrollViewer Grid.Row="2"
+        <ScrollViewer x:Name="MainContentScrollViewer" Grid.Row="2"
+                      Margin="0,12,0,12" ClipToBounds="True"
                       VerticalScrollBarVisibility="Auto">
 
-            <Grid Margin="24,12,24,12"
+            <Grid Margin="24,0,24,0"
                   ColumnDefinitions="2*,*"
                   ColumnSpacing="10">
 
@@ -241,7 +242,7 @@
                     <!-- 標題 -->
                     <StackPanel Spacing="6">
 
-                        <TextBlock Text="下載影片"
+                        <TextBlock x:Name="DownloadHeadingText" Text="下載影片"
                                    FontSize="24"
                                    FontWeight="Bold"
                                    Foreground="#18233B"/>

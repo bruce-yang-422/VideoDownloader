@@ -444,6 +444,8 @@ public partial class MainWindow : Window
     {
         _lastCompletedPath = path;
         DownloadCompletionBanner.IsVisible = !string.IsNullOrWhiteSpace(path);
+        if (DownloadCompletionBanner.IsVisible)
+            MainContentScrollViewer.Offset = default;
         DownloadCompletionPathTextBlock.Text = path is null ? string.Empty : Path.GetFileName(path);
         OpenCompletedFileButton.IsEnabled = path is not null && File.Exists(path);
         OpenCompletedFolderButton.IsEnabled = path is not null &&
