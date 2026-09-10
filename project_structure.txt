@@ -1,0 +1,126 @@
+VideoDownloader 專案檔案樹
+=========================
+
+更新日期：2026-09-10
+目前版本：1.0.0（Windows x64 首個正式版）
+發布狀態：已重新封裝並同步直接執行版，主程式與 Threads 解析器校驗一致。
+下方列出原始碼與用途；發布檔、驗證產物及執行時資料另列說明。
+
+VideoDownloader/
+├── README.md                       功能、操作、發布、測試、目前限制與後續改善
+├── project_structure.txt           本檔案：純文字檔案樹與用途
+├── .gitignore                      排除建置／測試產物、工具備份與 Python 快取
+├── VideoDownloader.csproj          套件、版本、作者／發布資訊、圖示與資源複製設定
+├── Program.cs                      程式進入點與 Avalonia 初始化
+├── App.axaml                       全域亮色主題與資料樣板
+├── App.axaml.cs                    建立主視窗與 DataContext
+├── app.manifest                    Windows 應用程式資訊
+├── ViewLocator.cs                  ViewModel 與 View 對應
+├── Assets/
+│   ├── VideoDownloader-logo.ico    應用程式與安裝包圖示
+│   └── VideoDownloader-logo.png    專案 Logo 原始圖
+├── Views/
+│   ├── MainWindow.axaml            頁首 Logo、亮色介面、About 入口、工具重試與完成提示
+│   ├── MainWindow.axaml.cs         平台辨識、工具重試、下載／取消、紀錄與 About 操作
+│   ├── AboutWindow.axaml           緊湊關於視窗、單行版本欄位與更新／複製／關閉按鈕
+│   └── AboutWindow.axaml.cs        動態資訊、背景版本查詢、工具檢查及複製系統資訊
+├── ViewModels/
+│   ├── ViewModelBase.cs            ViewModel 基底
+│   └── MainViewModel.cs            主畫面 ViewModel 基礎
+├── Services/
+│   ├── AboutInfoService.cs         組件發布資訊、執行環境及可取消的工具版本查詢
+│   ├── YtDlpService.cs             資訊查詢、輪播選取、解析器載入、下載／轉檔與暫存清理
+│   ├── MediaOptions.cs             來源畫質、音軌辨識與 MP3／WAV 品質選項
+│   ├── YtDlpUpdateService.cs        yt-dlp 版本檢查、驗證與更新
+│   ├── FfmpegSetupService.cs       FFmpeg／ffprobe 檢查與自動安裝
+│   ├── FfmpegProgressReader.cs     FFmpeg 各階段進度解析，缺少時長時顯示不確定進度
+│   ├── DownloadQueue.cs            下載工作、逐筆執行與等待項目移除（佇列未持久化）
+│   └── UserDataService.cs          設定、下載紀錄與預設下載位置
+├── installer/
+│   ├── VideoDownloader.iss         Windows x64 使用者安裝、圖示及開始功能表／桌面捷徑
+│   └── build-installer.ps1         讀取專案版本、尋找 Inno Setup 7／6、發布與封裝
+├── Tests/
+│   ├── AboutSmoke/
+│   │   ├── AboutSmoke.csproj       Avalonia Headless 關於視窗測試專案
+│   │   └── Program.cs              版本、作者、版面、剪貼簿與工具檢查回呼驗證
+│   ├── UpdaterSmoke/
+│   │   ├── UpdaterSmoke.csproj     更新流程測試專案
+│   │   └── Program.cs              安裝、版本比較、離線與備份測試
+│   ├── ThreadsExtractor/
+│   │   └── test_threads.py         Threads 分享解析、目標核對、格式與圖片測試
+│   └── WorkflowSmoke/
+│       ├── WorkflowSmoke.csproj    影音工作流程測試專案
+│       ├── Program.cs              格式、設定、紀錄、重複下載與取消測試
+│       ├── QueueTests.cs           佇列執行與取消測試
+│       ├── CarouselTests.cs        多項貼文選取、圖片略過及下載參數測試
+│       ├── AudioDetectionTests.cs  X HLS 音軌、缺少編碼及無音訊辨識測試
+│       └── FfmpegTests.cs          FFmpeg 安裝、校驗與離線沿用測試
+└── Tools/
+    ├── README.md                   第三方工具安裝與維護說明
+    ├── yt-dlp-plugins/
+    │   └── videodownloader/
+    │       └── yt_dlp_plugins/
+    │           └── extractor/
+    │               └── threads.py  Threads 分享解析、目標貼文核對與影音格式擷取
+    └── yt-dlp.exe                  可選離線初始核心，不納入 Git
+
+目前保留的發布輸出（不納入 Git）
+----------------------
+artifacts/
+├── app-publish/                    最新 Windows x64 自包含可執行檔
+│   ├── VideoDownloader.exe         1.0.0 主程式
+│   ├── *.dll、*.json、*.pdb 等     發布相依檔案（整個資料夾一起保留）
+│   └── Tools/                     初始 yt-dlp.exe 與 yt-dlp-plugins/ 解析器
+└── installer/
+    └── VideoDownloader-v1.0.0-Setup-x64.exe  可單獨交付的安裝包
+
+可再產生的建置與驗證產物（不納入 Git）
+----------------------
+本次已清理既有建置輸出、測試下載與快取；下列是產物路徑說明，不代表目前存在。
+IDE、建置或測試執行時可能重新建立這些目錄。
+
+bin/                               一般建置輸出
+obj/                               建置中間檔
+.artifacts/                        臨時驗證程式、測試下載與紀錄（本次已移除）
+artifacts/installer-publish/        封裝時產生的重複發布目錄
+artifacts/*.log                    封裝紀錄
+Tests/*/bin/、Tests/*/obj/          測試建置產物
+TestResults/、*.trx                測試工具產生時排除
+__pycache__/、*.py[cod]            Python 快取，可出現在解析器或測試目錄內
+.pytest_cache/、.venv/             Python 測試快取與開發環境，使用時才產生
+
+使用者資料與自動安裝工具（位於使用者目錄）
+----------------------------
+%LOCALAPPDATA%/VideoDownloader/
+├── settings.json                  使用者儲存位置、格式及音訊品質
+├── history.json                   最近 100 筆下載紀錄
+└── Tools/
+    └── ffmpeg/                    需要自動安裝時才建立
+        ├── ffmpeg.exe
+        ├── ffprobe.exe
+        └── LICENSE、README.txt    發行壓縮檔有提供時保留
+
+程式旁的工具（開發執行時位於建置輸出內）
+--------------------------------------
+<程式執行目錄>/Tools/
+├── yt-dlp.exe                     自動安裝／更新的下載核心
+├── yt-dlp.exe.bak                 替換既有核心時保留的備份
+├── yt-dlp-plugins/                隨主程式發布的 Threads Python 解析器
+├── ffmpeg.exe                     可選：手動放置的離線工具
+└── ffprobe.exe                    可選：與 ffmpeg.exe 放置於同一目錄
+
+說明
+----
+1. 開發執行輸出通常為 bin/Debug/net10.0/；建置／驗證產物可在相關程式停止且不需保留測試檔案時清理。
+2. FFmpeg 也可使用程式 Tools 或 PATH 中的既有安裝。
+3. 已移除舊的 Tools/SHA2-256SUMS；自動更新會從發行來源取得對應版本的校驗資料。
+4. 設定與紀錄模型定義在 Services/UserDataService.cs；空的 Models 目錄與專案宣告已移除。
+5. `*.m4s`、`*.part`、`.videodownloader-*` 是下載中或取消後可能產生的暫存檔，已由 `.gitignore` 排除。
+6. 清理 obj 後，重新封裝前先執行 dotnet restore -r win-x64；IDE 可能自動重建 bin/obj。
+7. build-installer.ps1 更新 installer-publish/ 與安裝包，不會同步更新 app-publish/；後者需另外 dotnet publish，指令見 README.md。
+8. Tools/yt-dlp-plugins/ 的 .py 原始碼、Tests/ 測試原始碼、Assets/ 圖示及 installer/ 腳本應納入版本控制。
+9. 主程式與 Threads 解析器透過新版發布檔更新；yt-dlp 自動更新，FFmpeg 僅在缺少或不可用時自動準備。
+10. .gitignore 只控制 Git 忽略規則，不會刪除本機檔案；交付時保留完整 app-publish/ 或單一 Setup 安裝包。
+11. About 作者為 Bruce Yang；版本、作者、Copyright、狀態與發布日期集中於 csproj，技術版本動態查詢。
+12. About「檢查更新」沿用下載工具準備流程，不更新主程式；目前不提供 GitHub 專案連結按鈕。
+13. 2026-09-10 重新封裝後已清理建置目錄、測試快取與封裝紀錄；保留檔案經 SHA256 核對未受影響，再更新本檔與 README.md。安裝包校驗值見 README.md。

@@ -1,0 +1,72 @@
+# =========================
+# .NET build output
+# =========================
+bin/
+obj/
+
+# =========================
+# Visual Studio / VS Code
+# =========================
+.vs/
+.vscode/
+
+# =========================
+# User-specific files
+# =========================
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Build / publish output
+# =========================
+Debug/
+Release/
+publish/
+artifacts/
+.artifacts/
+
+# =========================
+# yt-dlp / FFmpeg binaries and updater output
+# 保留 Tools/README.md 與 yt-dlp-plugins/ 中的 Python 原始碼
+# =========================
+Tools/yt-dlp.exe
+Tools/ffmpeg.exe
+Tools/ffprobe.exe
+Tools/yt-dlp.exe.bak
+Tools/yt-dlp-*.exe
+Tools/SHA2-256SUMS
+Tools/SHA2-256SUMS.*
+
+# =========================
+# Test results / Python development cache
+# =========================
+TestResults/
+*.trx
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# =========================
+# Temporary / logs
+# =========================
+*.log
+*.tmp
+*.temp
+
+# yt-dlp fragments and application staging files
+*.part
+*.part-Frag*
+*.m4s
+*.ytdl
+.videodownloader-*/
+*.backup-*/
+
+# =========================
+# OS files
+# =========================
+Thumbs.db
+Desktop.ini
+.DS_Store

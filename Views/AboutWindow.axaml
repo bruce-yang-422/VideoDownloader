@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="VideoDownloader.Views.AboutWindow"
+        Title="關於 VideoDownloader" Icon="/Assets/VideoDownloader-logo.ico"
+        Width="460" Height="520" MinWidth="420" MinHeight="400"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        RequestedThemeVariant="Light" Background="#F5F6FB">
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="#26324B"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style Selector="TextBlock.label">
+            <Setter Property="Foreground" Value="#64718A"/>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Styles>
+    <Grid RowDefinitions="*,Auto" Margin="20,14">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Spacing="10">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Margin="0,0,0,2">
+                    <Image Source="/Assets/VideoDownloader-logo.png" Width="56" Height="56" Stretch="Uniform"/>
+                    <StackPanel Grid.Column="1" Spacing="4" VerticalAlignment="Center">
+                        <TextBlock Text="VideoDownloader" FontSize="22" FontWeight="SemiBold"/>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock x:Name="VersionText" VerticalAlignment="Center"/>
+                            <Border Background="#ECFDF5" CornerRadius="10" Padding="8,2">
+                                <TextBlock x:Name="ReleaseStatusText" FontSize="11" Foreground="#047857"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Text="Windows 桌面影音下載工具" FontSize="11" Classes="label"/>
+                    </StackPanel>
+                </Grid>
+                <Border Background="White" CornerRadius="12" Padding="14,12" BorderBrush="#E4E7F0" BorderThickness="1">
+                    <StackPanel Spacing="7">
+                        <Grid ColumnDefinitions="86,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+                            <TextBlock Text="作者" Classes="label"/>
+                            <TextBlock x:Name="AuthorText" Grid.Column="1"/>
+                            <TextBlock Text="更新日期" Classes="label" Grid.Row="1"/>
+                            <TextBlock x:Name="ReleaseDateText" Grid.Row="1" Grid.Column="1"/>
+                            <TextBlock Text="執行平台" Classes="label" Grid.Row="2"/>
+                            <TextBlock x:Name="PlatformText" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap"/>
+                        </Grid>
+                        <TextBlock x:Name="CopyrightText" FontSize="11" Classes="label" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="White" CornerRadius="12" Padding="14,12" BorderBrush="#E4E7F0" BorderThickness="1">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="技術資訊" FontWeight="SemiBold"/>
+                        <Grid ColumnDefinitions="86,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="6">
+                            <TextBlock Text=".NET" Classes="label"/>
+                            <TextBlock x:Name="FrameworkText" Grid.Column="1" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="Avalonia" Classes="label" Grid.Row="1"/>
+                            <TextBlock x:Name="AvaloniaText" Grid.Row="1" Grid.Column="1" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="yt-dlp" Classes="label" Grid.Row="2"/>
+                            <TextBlock x:Name="YtDlpText" Text="讀取中…" Grid.Row="2" Grid.Column="1" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="FFmpeg" Classes="label" Grid.Row="3"/>
+                            <TextBlock x:Name="FfmpegText" Text="讀取中…" Grid.Row="3" Grid.Column="1" TextTrimming="CharacterEllipsis"/>
+                        </Grid>
+                        <TextBlock Text="yt-dlp、FFmpeg 及其他元件依各自授權提供。" FontSize="11" Classes="label" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" Spacing="7" Margin="0,8,0,0">
+            <TextBlock x:Name="StatusText" Text="僅檢查下載工具更新。" FontSize="11" Classes="label" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+            <Grid ColumnDefinitions="*,*,Auto" ColumnSpacing="8">
+                <Button x:Name="CheckUpdatesButton" Content="檢查更新" Click="CheckUpdates_Click"
+                        ToolTip.Tip="更新 yt-dlp 並確認 FFmpeg 可用；主程式需安裝新版。"/>
+                <Button x:Name="CopyInfoButton" Grid.Column="1" Content="複製資訊" Click="CopyInfo_Click" IsEnabled="False"
+                        ToolTip.Tip="複製完整系統與工具版本資訊"/>
+                <Button Grid.Column="2" Content="關閉" Click="Close_Click"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>
